@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+	<head>
+		<meta charset="UTF-8">
+		
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/css.css"/>
+		<style type="text/css">
+			
+			
+		</style>
+	</head>
+	<body ng-controller="ctrl">
+		<div id="tianjia">
+			<input type="text" ng-model="shangpin"/><br /><br />
+			<input type="text" ng-model="danjia"/><br /><br />
+			<input type="button" value="添加" ng-click="tian()" style="background: blueviolet;width: 100px;"/><br />
+		</div>
+		<br />
+		<table border="1" cellpadding="1" cellspacing="0" id="shan">
+			<tr>
+				<th><input type="checkbox" ng-model="quan" ng-click="check()">全选</th>
+				<th>商品</th>
+				<th>单价</th>
+				<th>数量</th>
+				<th>小计</th>
+				<th>操作</th>
+			</tr>
+			<tr ng-repeat="aa in ziliao track by $index">
+				<td><input type="checkbox" ng-checked="aa.aaa" ng-click="ischecked($index)"></td>
+				<td><img src="img/{{aa.p1}}"/><span>{{aa.p2}}</span></td>
+				<td>{{aa.p3}}</td>
+				<td><input type="button" value="-" ng-click="jian(aa.p1)"  ng-disabled="aa.p4<=0"/><input type="text" ng-model="aa.p4"/><input ng-click="jia(aa.p1)" type="button" value="+" /></td>
+				<td>{{aa.p3 * aa.p4 | number:2}}</td>
+				<td><input type="button"value="删除" ng-click="deleted($index)"/><input type="button"value="选中删除" ng-click="optdelete($index)"/></td>
+			</tr>
+		</table>
+		<div id="foot">
+			<p><input type="checkbox" ng-model="quan" ng-click="check()">全选</p>
+			<p><input type="button" value="批量删除" ng-click="quandelete()"/></p>
+			<div><input type="button" value="全部删除" ng-click="qudelete($index)"/></div>
+			<p>已购商品：<span>{{jishu()}}</span>&ensp;件</p>
+			<p>合计：<span>{{zong() | currency:"￥"}}</span></p>
+			<p>结算</p>
+		</div>	
+		<br />
+		
+		<script src="ajs/angular.js" type="text/javascript" charset="utf-8"></script>
+		<script src="ajs/angular-route.js" type="text/javascript" charset="utf-8"></script>
+		<script src="ajs/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var app = angular.module("myApp",[])
+				app.controller("ctrl",function($scope){
+					$scope.cont = 0
+					$scope.num = 0
+					$scope.quan = false
+					$scope.ziliao = [
+				               		{"p1": "1_03.jpg", "p2": "北京市昌平区北", "p3": "20","p4":1,"aaa":false},
+				                    {"p1": "2_03.jpg", "p2": "北京市海淀区远", "p3": "20","p4":1,"aaa":false},
+				                    {"p1": "3_03.jpg", "p2": "北京市东城区王", "p3": "20","p4":1,"aaa":false},
+				                    {"p1": "4_03.jpg", "p2": "北京市东城区王", "p3": "20","p4":1,"aaa":false}		
+			  			]	
+			  		$scope.img = ["1_03.jpg","2_03.jpg","3_03.jpg","4_03.jpg"]
+
+			  		$scope.shangpin = ''
+			  		$scope.danjia = ''
+			  		//添加
+			  		$scope.count = 0
+			  		$scope.tian = function(){
+			
+			  				var oo = $scope.img[$scope.count]
+				  			$scope.ziliao.push(
+				  				{"p1": oo,"p2":$scope.shangpin,"p3":$scope.danjia}	
+				  			)
+							$scope.count++;
+							if($scope.count > $scope.img.length-1){
+								$scope.count = 0
+							}
+		
+			  		}
+			  		//全选
+			  		$scope.check = function(){
+			  			for(var i = 0 ; i < $scope.ziliao.length; i++){
+			  				if($scope.quan != $scope.ziliao[i].aaa){
+			  					$scope.ziliao[i].aaa  = $scope.quan
+			  				}
+			  			}
+			  		}
+			  		//点击数量减
+					 $scope.jian = function (p1) {
+					  	for(var i = 0 ; i < $scope.ziliao.length; i++){
+					  		if($scope.ziliao[i].p1 == p1){
+					  			$scope.ziliao[i].p4--
+					  		}
+					  	}
+					 };
+					 //点击数量加
+					 $scope.jia = function (p1) {
+					  	for(var i = 0 ; i < $scope.ziliao.length; i++){
+					  		if($scope.ziliao[i].p1 == p1){
+					  			$scope.ziliao[i].p4++
+					  		}
+					  	}
+					 };
+					 //单选/全选取反
+					$scope.ischecked = function(index){
+						$scope.ziliao[index].aaa = !$scope.ziliao[index].aaa
+						if($scope.quan && !$scope.ziliao[index].aaa){
+							$scope.quan = !$scope.quan
+						}
+						//全选是false，如果单选全为true然后改变下全选值
+						if(!$scope.quan){
+							//默认标识为true
+							var ffff = true
+							for(var i = 0 ; i < $scope.ziliao.length; i++){
+								if(!$scope.ziliao[i].aaa){
+									ffff = false
+								}
+							}
+							if(ffff){
+								$scope.quan = true
+							}
+						}
+					}
+					//选中删除
+					$scope.optdelete = function(index){
+						if($scope.ziliao[index].aaa){
+							$scope.ziliao.splice(index,1)
+						}
+					}
+					//点击删除
+					$scope.deleted= function(index){
+						if($scope.ziliao[index].aaa == false){
+							
+							$scope.ziliao.splice(index,1)	
+						}
+					}
+					//全选删除
+					$scope.quandelete = function(){
+
+						for(var i = 0; i < $scope.ziliao.length; i++){
+							if($scope.ziliao[i].aaa){
+								$scope.ziliao.splice(i,1)
+								i--
+							}
+						}
+						debugger;
+					}
+					$scope.qudelete = function(index){
+						
+					
+						
+							$scope.ziliao.splice(index,4)	
+					
+					
+						
+					}
+					//已购商品数量
+					$scope.jishu = function(){
+						var sum = 0 ;
+						for(var i = 0 ; i < $scope.ziliao.length; i++){
+							if($scope.ziliao[i].aaa){
+								sum += parseInt($scope.ziliao[i].p4)
+							}
+						}
+						return sum;
+					}
+					//合计
+					$scope.zong = function(){
+						var heji = 0 ; 
+						for(var i = 0 ; i < $scope.ziliao.length; i++){
+							if($scope.ziliao[i].aaa){
+								
+								heji += $scope.ziliao[i].p3 * $scope.ziliao[i].p4
+							}
+						}
+						return heji;
+					}
+				})
+				
+				
+			
+		</script>
+		
+	</body>
+</html>

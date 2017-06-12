@@ -1,0 +1,99 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; }
+
+html {
+  font-size: 62.5%; }
+
+table {
+  font-size: 16px;
+  width: 800px;
+  margin: 0 auto; }
+
+td, input {
+  text-align: center; }
+
+th {
+  height: 30px;
+  background: #e2f2ff; }
+
+#foot {
+  width: 800px;
+  margin: 0 auto;
+  padding: 15px 0;
+  background: #e8e8e8;
+  display: flex;
+  font-size: 18px;
+  position: relative; }
+  #foot p:nth-child(1) {
+    margin-left: 15px; }
+  #foot p:nth-child(2) {
+    margin-left: 70px; }
+  #foot p:nth-child(4) {
+    margin-left: 110px; }
+    #foot p:nth-child(4) span {
+      color: red;
+      font-size: 20px; }
+  #foot p:nth-child(5) {
+    margin-left: 30px; }
+    #foot p:nth-child(5) span {
+      color: red;
+      font-size: 20px; }
+  #foot p:last-child {
+    position: absolute;
+    background: #eeeeee;
+    right: 0;
+    top: 0;
+    width: 100px;
+    text-align: center;
+    line-height: 50px;
+    height: 100%; }
+  #foot div {
+    margin-left: 10px; }
+
+tr:hover {
+  background: #e2f2ff; }
+
+tr td {
+  text-align: center; }
+tr td:first-child {
+  width: 80px; }
+tr td:nth-child(2) {
+  display: flex;
+  padding: 10px;
+  width: 280px; }
+  tr td:nth-child(2) span {
+    margin-left: 20px;
+    display: block;
+    padding: 40px 0px; }
+tr td:nth-child(4) {
+  width: 150px;
+  padding: 0 10px; }
+  tr td:nth-child(4) input {
+    height: 25px; }
+  tr td:nth-child(4) input:first-child {
+    width: 25px; }
+  tr td:nth-child(4) input:nth-child(2) {
+    width: 60px; }
+  tr td:nth-child(4) input:last-child {
+    width: 25px; }
+tr td:nth-child(5) {
+  width: 100px; }
+tr td:last-child {
+  width: 120px; }
+  tr td:last-child input {
+    width: 80px;
+    height: 30px; }
+tr td:nth-child(3) {
+  width: 100px; }
+
+#tianjia {
+  width: 280px;
+  text-align: center;
+  position: fixed;
+  top: 200px; }
+  #tianjia input {
+    height: 30px; }
+
+/*# sourceMappingURL=css.css.map */
